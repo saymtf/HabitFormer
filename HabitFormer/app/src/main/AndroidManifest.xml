@@ -27,6 +27,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.saymtf.habitformer.MainActivity" />
         </activity>
+        <activity
+            android:name=".DisplayHabit"
+            android:label="@string/title_activity_display_habit"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
