@@ -30,7 +30,20 @@
         <activity
             android:name=".DisplayHabit"
             android:label="@string/title_activity_display_habit"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".HabitTimer"
+            android:label="@string/title_activity_habit_timer"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ConfigureTime"
+            android:label="@string/title_activity_configure_time"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.saymtf.habitformer.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

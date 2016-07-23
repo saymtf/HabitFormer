@@ -1,0 +1,35 @@
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.saymtf.habitformer.ConfigureTimeFragment"
+    tools:showIn="@layout/activity_configure_time">
+
+
+    <Button android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/more_time"
+        android:text="@string/more_time"
+        android:onClick="moreTime"/>
+
+    <Button android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/perfect_time"
+        android:text="@string/perfect_time"
+        android:onClick="perfectTime"/>
+
+    <Button android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/less_time"
+        android:text="@string/less_time"
+        android:onClick="lessTime"/>
+
+    <TextView android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/configure_time"
+        android:text="@string/configure_time_text"/>
+</TableLayout>

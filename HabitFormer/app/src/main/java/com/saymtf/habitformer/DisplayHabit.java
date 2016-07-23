@@ -6,12 +6,17 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class DisplayHabit extends AppCompatActivity {
-
+    private String habitName;
+    private TextView habitNameTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,18 +34,48 @@ public class DisplayHabit extends AppCompatActivity {
         });
 
         Intent intent = getIntent();
-        String habitName = intent.getStringExtra(MainActivity.HABIT_MESSAGE);
-        TextView habitNameTextView = new TextView(this);
+        habitName = intent.getStringExtra(MainActivity.HABIT_MESSAGE);
+        habitNameTextView = new TextView(this);
         habitNameTextView.setText(habitName);
-        habitNameTextView.setTextSize(40);
+        habitNameTextView.setTextSize(80);
+        habitNameTextView.setId(View.generateViewId());
+
+        Button startButton = (Button) findViewById(R.id.start_button);
+
+        setContentView(R.layout.fragment_display_habit);
 
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.display_content);
-        layout.addView(habitNameTextView);
 
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+        );
+
+        layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, habitNameTextView.getId());
+        habitNameTextView.setLayoutParams(layoutParams);
+
+
+        layout.addView(habitNameTextView);
     }
 
 
-    public void startButton(View view) {
-        System.out.println("Start Button!");
+    public void startAction(View view) {
+        Intent intent = new Intent(this, HabitTimer.class);
+        intent.putExtra(MainActivity.HABIT_MESSAGE, habitName);
+        startActivity(intent);
+    }
+
+    public void editAction(View view) {
+        EditText editText = new EditText(this);
+        editText.setHint("Change Habit Name");
+
+        Button removeHabitButton = new Button(this);
+        removeHabitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Go Back and Remove this instance/sharedPref");
+            }
+        });
+
     }
 }
