@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.os.Handler;
 import android.os.SystemClock;
 
+import java.util.concurrent.TimeUnit;
+
 public class HabitTimer extends AppCompatActivity {
     public TextView mTextField;
     public RelativeLayout layout;
@@ -65,6 +67,8 @@ public class HabitTimer extends AppCompatActivity {
         layoutParamsHabitName.addRule(RelativeLayout.CENTER_HORIZONTAL, habitNameTextView.getId());
         habitNameTextView.setLayoutParams(layoutParamsHabitName);
 
+        int time = intent.getIntExtra(MainActivity.HABIT_TIME, 0);
+        System.out.println("Habit Timer " +  time);
 
         mTextField = new TextView(this);
         mTextField.setTextSize(50);
@@ -80,17 +84,21 @@ public class HabitTimer extends AppCompatActivity {
         mTextField.setLayoutParams(layoutParamsTimer);
 
 
-        CountDownTimer timer = new CountDownTimer(5000, 1000) {
+        CountDownTimer timer = new CountDownTimer(time, 1000) {
             public void onTick(long miliseconds) {
+
                 int seconds = (int) (miliseconds / 1000);
+                System.out.println(seconds);
                 int minutes = seconds / 60;
+                System.out.println(minutes);
                 seconds = seconds % 60;
-                mTextField.setText("" + minutes + ":"
-                        + String.format("%02d", seconds));
+                String timeText = minutes + ":" + String.format("%02d", seconds);
+                mTextField.setText(timeText);
 
             }
 
             public void onFinish() {
+
                 mTextField.setText("You're All Done!");
                 createButton();
             }

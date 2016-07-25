@@ -22,7 +22,8 @@ public class MainActivity extends AppCompatActivity {
     public static final int STATIC_INTEGER_VALUE = 69;
     public static final String HABIT_NAME = "com.saymtf.habit.A_HABIT_NAME";
     public static final String HABIT_MESSAGE = "com.saymtf.habit.HABIT_MESSAGE";
-    public static final int HABIT_TIME = 0;
+    public static final String HABIT_TIME = "com.saymtf.habit.HABIT_TIME";
+    public int habitTime;
     HabitTypes habitTypes;
 
     @Override
@@ -47,14 +48,19 @@ public class MainActivity extends AppCompatActivity {
             //Create a Layout
             RelativeLayout layout = (RelativeLayout) findViewById(R.id.main_content);
 
-                int habitTime = sharedPref.getInt("habitTime", HABIT_TIME);
+            habitTime = sharedPref.getInt("habitTime", 0);
 
-                //Create Text View
-                TextView habitNameTextView = new TextView(this);
-                habitNameTextView.setTextSize(30);
-                habitNameTextView.setText(habitName);
-                habitNameTextView.setId(View.generateViewId());
-                habitNameTextView.setOnClickListener(habitNameClicked);
+
+            //Hide Add Habit Button (Only one at a time)
+            Button button = (Button) findViewById(R.id.add_habit_button);
+            button.setVisibility(View.GONE);
+
+               //Create Text View
+            TextView habitNameTextView = new TextView(this);
+            habitNameTextView.setTextSize(30);
+            habitNameTextView.setText(habitName);
+            habitNameTextView.setId(View.generateViewId());
+            habitNameTextView.setOnClickListener(habitNameClicked);
 
 
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
@@ -102,80 +108,41 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode == STATIC_INTEGER_VALUE) {
             if(resultCode == Activity.RESULT_OK) {
                 String habit = data.getStringExtra(Habit.PUBLIC_STATIC_STRING_IDENTIFIER);
+                habitTime = data.getIntExtra(Habit.PUBLIC_STATIC_INT_IDENTIFIER, 0);
 
                 // Shared Preferences
                 // https://developer.android.com/training/basics/data-storage/shared-preferences.html
-
-                // Get the information of the habits and size - append it
-                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(HABIT_NAME, 0);
-                int habitTime = sharedPreferences.getInt("habitTime", HABIT_TIME);
-
-                String[] temp;
-                int[] tempTime;
-                habitSize++;
-                if(habitSize == 1) {
-                    temp = new String[habitSize];
-                    tempTime = new int[habitSize];
-                }else {
-                    temp = new String[habitSize];
-                    tempTime = new int[habitSize];
-
-                    for(int i = 0; i < habitSize; i++) {
-                        temp[i] = sharedPreferences.getString("habitName"+i, HABIT_NAME);
-                        tempTime[i] = sharedPreferences.getInt("habitTime"+i, HABIT_TIME);
-                    }
-
-                }
-
-                // Increment + append new habit
-                temp[habitSize-1] = habit;
-                tempTime[habitSize-1] = 100000;
 
                 // Save the Info
                 SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(HABIT_NAME, 0);
                 SharedPreferences.Editor editor = sharedPref.edit();
 
-                for(int i = 0; i < habitSize; i++) {
-                    editor.putString("habitName"+i, temp[i]);
-                    System.out.println(HabitTypes.READ.getTime());
-                    System.out.println(HabitTypes.WRITE.getTime());
-                    System.out.println(HabitTypes.PROGRAM.getTime());
-                    //if(temp[i].contains())
-                    editor.putInt("habitTime"+i, tempTime[i]);
-                }
-                editor.putInt("habitSize", habitSize);
+                editor.putString("habitName", habit);
+                editor.putInt("habitTime", habitTime);
                 editor.apply();
-
 
                 // Update View
                 RelativeLayout layout = (RelativeLayout) findViewById(R.id.main_content);
 
-                for(int i = 0; i < habitSize; i++) {
-                    // Create Text View
-                    TextView habitTextView = new TextView(this);
-                    habitTextView.setTextSize(30);
-                    habitTextView.setText(temp[i]);
-                    habitTextView.setId(1000 + i);
-                    habitTextView.setOnClickListener(habitNameClicked);
+                //Hide Add Habit Button (Only one at a time)
+                Button button = (Button) findViewById(R.id.add_habit_button);
+                button.setVisibility(View.GONE);
 
+                // Create Text View
+                TextView habitTextView = new TextView(this);
+                habitTextView.setTextSize(30);
+                habitTextView.setText(habit);
+                habitTextView.setId(View.generateViewId());
+                habitTextView.setOnClickListener(habitNameClicked);
 
-                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
-                            RelativeLayout.LayoutParams.MATCH_PARENT,
-                            RelativeLayout.LayoutParams.WRAP_CONTENT);
+                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
 
-                    if(i == 0) {
-                        layoutParams.addRule(RelativeLayout.BELOW, R.id.add_habit_button);
-                    }else {
-                        layoutParams.addRule(RelativeLayout.BELOW, habitTextView.getId()-1);
-                    }
-
-
-                    habitTextView.setLayoutParams(layoutParams);
-                    //Add to view
-                    layout.addView(habitTextView);
-                }
-
-
+                layoutParams.addRule(RelativeLayout.BELOW, R.id.add_habit_button);
+                habitTextView.setLayoutParams(layoutParams);
+                //Add to view
+                layout.addView(habitTextView);
 
             }
         }
@@ -188,11 +155,10 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
 
             Intent intent = new Intent(view.getContext(), DisplayHabit.class);
-            System.out.println(view.getId());
             TextView habitName = (TextView) findViewById(view.getId());
             String name = habitName.getText().toString();
             intent.putExtra(HABIT_MESSAGE, name);
-           // intent.putExtra(HABIT_MESSAGE, habitTime);
+            intent.putExtra(HABIT_TIME, habitTime);
             startActivity(intent);
 
         }

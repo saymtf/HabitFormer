@@ -15,4 +15,6 @@
     <string name="less_time">Less Time</string>
     <string name="configure_time_text"></string>
     <string name="edit_button">Edit Habit</string>
+    <string name="habit_time"></string>
+    <string name="choose_your_time">Choose the amount of minutes for your habit: </string>
 </resources>

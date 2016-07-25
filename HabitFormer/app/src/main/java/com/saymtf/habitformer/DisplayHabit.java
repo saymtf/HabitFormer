@@ -17,6 +17,7 @@ import android.widget.TextView;
 public class DisplayHabit extends AppCompatActivity {
     private String habitName;
     private TextView habitNameTextView;
+    private int time;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +41,9 @@ public class DisplayHabit extends AppCompatActivity {
         habitNameTextView.setTextSize(80);
         habitNameTextView.setId(View.generateViewId());
 
+
+        time = intent.getIntExtra(MainActivity.HABIT_TIME, 0);
+        System.out.println("Display Habit " + time);
         Button startButton = (Button) findViewById(R.id.start_button);
 
         setContentView(R.layout.fragment_display_habit);
@@ -62,6 +66,7 @@ public class DisplayHabit extends AppCompatActivity {
     public void startAction(View view) {
         Intent intent = new Intent(this, HabitTimer.class);
         intent.putExtra(MainActivity.HABIT_MESSAGE, habitName);
+        intent.putExtra(MainActivity.HABIT_TIME, time);
         startActivity(intent);
     }
 
