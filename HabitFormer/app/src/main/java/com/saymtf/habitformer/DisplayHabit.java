@@ -1,6 +1,7 @@
 package com.saymtf.habitformer;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,13 +15,18 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+
+
+
 public class DisplayHabit extends AppCompatActivity {
     private String habitName;
     private TextView habitNameTextView;
     private int time;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_display_habit);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -61,7 +67,6 @@ public class DisplayHabit extends AppCompatActivity {
 
         layout.addView(habitNameTextView);
     }
-
 
     public void startAction(View view) {
         Intent intent = new Intent(this, HabitTimer.class);

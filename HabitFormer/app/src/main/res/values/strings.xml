@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">HabitFormer</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Introduction</string>
     <string name="plus_button">+</string>
     <string name="title_activity_habit">Create a new habit</string>
     <string name="create_habit">Create Habit</string>
     <string name="a_habit_name_here">Enter in a habit</string>
     <string name="habit_name"></string>
+    <string name="done">done</string>
     <string name="title_activity_display_habit">DisplayHabit</string>
     <string name="start_button">Start!</string>
     <string name="title_activity_habit_timer">HabitTimer</string>
@@ -17,4 +18,20 @@
     <string name="edit_button">Edit Habit</string>
     <string name="habit_time"></string>
     <string name="choose_your_time">Choose the amount of minutes for your habit: </string>
+    <string name="remove_habit">Remove Habit</string>
+    <string name="introduction_part_button">Next Intro..</string>
+    <string name="introduction_part_button_end"></string>
+
+
+    <string name="title_activity_introduction">Introduction</string>
+    <string name="introduction_part_one"><![CDATA[Let’s say you want to get in better shape. Of course, you’re smart, informed, and know exactly what to do. So you’ve listed the changes you need to make, pinning them to the fridge next to the vision board and inspirational photos. Here’s the only problem: You haven’t actually done anything on the list. You’re struggling with the getting started part.]]></string>
+
+    <string name="title_activity_introduction_two">IntroductionTwo</string>
+    <string name="introduction_part_two"><![CDATA[To support this analogy, bestselling author Leo Babauta estimates that when people focus on changing a single behavior at a time, the likelihood that they’ll retain their new habit for a year or more is around 80 per cent.But what about those who try to change two or more behaviors at once? In them, he asserts, success rates drop as low as 20 per cent.Of course, there’s nothing new in the idea that focusing on less helps you achieve more. Experts in all walks of life have recognized it for years. As Guelph University psychology professor Ian Newby-Clark explains:“Habits are highly ingrained behaviors. They are almost automatic. Changing one habit is hard enough. Trying to change more than one at a time is often a recipe for disaster. So, despite the occasional example to the contrary, my advice is to focus on one habit at a time.” ]]></string>
+
+    <string name="title_activity_introduction_three">IntroductionThree</string>
+    <string name="introduction_part_three"><![CDATA[Following Through So, how can you use the principles of habit-based coaching to get in shape yourself? Or to help friends, family or clients? Here are a few examples: Start small. First, when it comes to making any kind of lifestyle change, it’s best to start small and build. Begin by choosing one practice to follow. It could be drinking 8 cups of water each day. Sleeping 8 hours each night. Or exercise 30 minutes each day. Just be sure to choose only one and follow it for 2 weeks before adding any new habits.
+    Make things clear and measurable. Next, make sure the practice is clear and measurable. “Eat more veggies” isn’t that useful. “Eat 1 fist-sized portion of vegetables with each meal” is much better. At the end of each day you can know for sure if you did it or not.
+    Gain confidence first. Finally, make the practice something you (or your client) feels confident they can do every day. Even if the habit sounds small, if it’s not something that inspires confidence, it’s not a great practice to begin with.]]></string>
+
 </resources>

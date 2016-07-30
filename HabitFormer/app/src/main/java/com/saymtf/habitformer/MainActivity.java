@@ -3,6 +3,7 @@ package com.saymtf.habitformer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.Random;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,12 +25,17 @@ public class MainActivity extends AppCompatActivity {
     public static final String HABIT_NAME = "com.saymtf.habit.A_HABIT_NAME";
     public static final String HABIT_MESSAGE = "com.saymtf.habit.HABIT_MESSAGE";
     public static final String HABIT_TIME = "com.saymtf.habit.HABIT_TIME";
+    public static final String HABIT_GOAL_TIME = "com.saymtf.habit.HABIT_GOAL_TIME";
     public int habitTime;
+    public int habitGoalTime;
     HabitTypes habitTypes;
-
+    private SharedPreferences prefs = null;
+    ConfigureTime configureTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefs = getSharedPreferences("com.saymtf.habit.firstrun", MODE_PRIVATE);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -42,14 +49,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        configureTime = new ConfigureTime();
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(HABIT_NAME, 0);
         String habitName = sharedPref.getString("habitName", HABIT_NAME);
         if (!habitName.equals("com.saymtf.habit.A_HABIT_NAME")) {
             //Create a Layout
             RelativeLayout layout = (RelativeLayout) findViewById(R.id.main_content);
 
+            habitGoalTime = sharedPref.getInt("habitGoalTime", 0);
             habitTime = sharedPref.getInt("habitTime", 0);
-
 
             //Hide Add Habit Button (Only one at a time)
             Button button = (Button) findViewById(R.id.add_habit_button);
@@ -75,8 +83,24 @@ public class MainActivity extends AppCompatActivity {
 
              // Add View to layout
                 layout.addView(habitNameTextView);
-            }
+        }else {
+            Button removeButton = (Button) findViewById(R.id.remove_habit);
+            removeButton.setVisibility(View.GONE);
+        }
+
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (prefs.getBoolean("firstrun", true)) {
+            showIntro();
+            prefs.edit().putBoolean("firstrun", false).apply();
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -94,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            showIntro();
             return true;
         }
 
@@ -108,16 +133,19 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode == STATIC_INTEGER_VALUE) {
             if(resultCode == Activity.RESULT_OK) {
                 String habit = data.getStringExtra(Habit.PUBLIC_STATIC_STRING_IDENTIFIER);
-                habitTime = data.getIntExtra(Habit.PUBLIC_STATIC_INT_IDENTIFIER, 0);
-
+                habitGoalTime = data.getIntExtra(Habit.PUBLIC_STATIC_INT_IDENTIFIER, 0);
+                habitTime = configureTime.configureTime(habitGoalTime);
                 // Shared Preferences
                 // https://developer.android.com/training/basics/data-storage/shared-preferences.html
+
+                System.out.println("The habit edited " + habitTime + " ...Goal.. " + habitGoalTime);
 
                 // Save the Info
                 SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(HABIT_NAME, 0);
                 SharedPreferences.Editor editor = sharedPref.edit();
 
                 editor.putString("habitName", habit);
+                editor.putInt("habitGoalTime", habitGoalTime);
                 editor.putInt("habitTime", habitTime);
                 editor.apply();
 
@@ -125,9 +153,19 @@ public class MainActivity extends AppCompatActivity {
                 RelativeLayout layout = (RelativeLayout) findViewById(R.id.main_content);
 
                 //Hide Add Habit Button (Only one at a time)
-                Button button = (Button) findViewById(R.id.add_habit_button);
-                button.setVisibility(View.GONE);
+                Button addButton = (Button) findViewById(R.id.add_habit_button);
+                addButton.setVisibility(View.GONE);
 
+                //Show Remove Button
+                Button removeButton = (Button) findViewById(R.id.remove_habit);
+                removeButton.setVisibility(View.VISIBLE);
+
+
+                // Create Text View
+               /* TextView test = new TextView(this);
+                test.setTextSize(50);
+                test.setText(habitTime);
+*/
                 // Create Text View
                 TextView habitTextView = new TextView(this);
                 habitTextView.setTextSize(30);
@@ -139,10 +177,19 @@ public class MainActivity extends AppCompatActivity {
                     RelativeLayout.LayoutParams.MATCH_PARENT,
                     RelativeLayout.LayoutParams.WRAP_CONTENT);
 
+                RelativeLayout.LayoutParams layoutParams1 = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+
                 layoutParams.addRule(RelativeLayout.BELOW, R.id.add_habit_button);
+                //layoutParams1.addRule(RelativeLayout.BELOW, habitTextView.getId());
                 habitTextView.setLayoutParams(layoutParams);
+               // test.setLayoutParams(layoutParams1);
+
                 //Add to view
                 layout.addView(habitTextView);
+               // layout.addView(test);
 
             }
         }
@@ -168,5 +215,26 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Habit.class);
         startActivityForResult(intent, STATIC_INTEGER_VALUE);
     }
+
+    public void removeHabit(View view) {
+        view.setVisibility(view.GONE);
+        //Remove Shared Prefs.
+
+        getApplicationContext().getSharedPreferences(HABIT_TIME, 0).edit().clear().apply();
+        getApplicationContext().getSharedPreferences(HABIT_NAME, 0).edit().clear().apply();
+        getApplicationContext().getSharedPreferences(HABIT_GOAL_TIME, 0).edit().clear().apply();
+        //Update Scene
+        Intent intent = getIntent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        startActivity(intent);
+    }
+
+
+    private void showIntro() {
+        Intent intent = new Intent(this, Introduction.class);
+        startActivity(intent);
+    }
+
 
 }

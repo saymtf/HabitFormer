@@ -22,13 +22,15 @@ public class HabitTimer extends AppCompatActivity {
     public RelativeLayout layout;
     private Button finishButton;
     private Button continueHabit;
-    public static final String HABIT_TIME_MESSAGE = "com.saymtf.habit.HABIT_TIME_MESSAGE";
+    private int habitTime;
+    public static final String HABIT_EXTENDED_TIME_MESSAGE = "com.saymtf.habit.HABIT_TIME_MESSAGE";
     /* TIMER */
     private long startTime = 0L;
     private Handler myHandler = new Handler();
     long timeInMillies = 0L;
     long timeSwap = 0L;
     long finalTime = 0L;
+    private CountDownTimer timer;
     /* EOF */
 
 
@@ -54,6 +56,8 @@ public class HabitTimer extends AppCompatActivity {
 
         Intent intent = getIntent();
         String habitName = intent.getStringExtra(MainActivity.HABIT_MESSAGE);
+        habitTime = intent.getIntExtra(MainActivity.HABIT_TIME, 0);
+
         TextView habitNameTextView = new TextView(this);
         habitNameTextView.setText(habitName);
         habitNameTextView.setTextSize(60);
@@ -84,7 +88,7 @@ public class HabitTimer extends AppCompatActivity {
         mTextField.setLayoutParams(layoutParamsTimer);
 
 
-        CountDownTimer timer = new CountDownTimer(time, 1000) {
+        timer = new CountDownTimer(time, 1000) {
             public void onTick(long miliseconds) {
 
                 int seconds = (int) (miliseconds / 1000);
@@ -108,6 +112,15 @@ public class HabitTimer extends AppCompatActivity {
         layout.addView(habitNameTextView);
         layout.addView(mTextField);
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        myHandler.removeCallbacks(updateTimerMethod);
+        timer.cancel();
+    }
+
 
     public void createButton() {
 
@@ -164,8 +177,8 @@ public class HabitTimer extends AppCompatActivity {
             int extraTime = (int) timeSwap / 1000;
 
             Intent intent = new Intent(v.getContext(), ConfigureTime.class);
-            intent.putExtra(HABIT_TIME_MESSAGE, extraTime);
-            //intent.putExtra(MainActivity.HABIT_TIME, currentHabitTime);
+            intent.putExtra(HABIT_EXTENDED_TIME_MESSAGE, extraTime);
+            intent.putExtra(MainActivity.HABIT_TIME, habitTime);
             startActivity(intent);
 
         }

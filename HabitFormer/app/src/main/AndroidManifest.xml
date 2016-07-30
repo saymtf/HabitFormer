@@ -44,6 +44,33 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.saymtf.habitformer.MainActivity" />
         </activity>
+        <activity
+            android:name=".Introduction"
+            android:label="@string/title_activity_introduction"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.saymtf.habitformer.MainActivity" />
+        </activity>
+        <activity
+            android:name=".IntroductionTwo"
+            android:label="@string/title_activity_introduction_two"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.saymtf.habitformer.MainActivity" />
+        </activity>
+        <activity
+            android:name=".IntroductionThree"
+            android:label="@string/title_activity_introduction_three"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.saymtf.habitformer.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

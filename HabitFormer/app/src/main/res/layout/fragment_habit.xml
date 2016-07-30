@@ -12,7 +12,8 @@
     <EditText android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/habit_name"
-        android:hint="@string/a_habit_name_here" />
+        android:hint="@string/a_habit_name_here"
+        android:singleLine="true" />
 
     <TextView
         android:layout_width="match_parent"

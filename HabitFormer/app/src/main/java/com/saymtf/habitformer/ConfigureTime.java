@@ -1,5 +1,7 @@
 package com.saymtf.habitformer;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,6 +11,10 @@ import android.view.View;
 import android.widget.TextView;
 
 public class ConfigureTime extends AppCompatActivity {
+    private int habitTime;
+    private int extendedTime;
+    private int goalTime;
+    private String userInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,22 +32,98 @@ public class ConfigureTime extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Intent intent = getIntent();
+        habitTime = intent.getIntExtra(MainActivity.HABIT_TIME, 0);
+        goalTime = intent.getIntExtra(MainActivity.HABIT_GOAL_TIME, 0);
+        extendedTime = intent.getIntExtra(HabitTimer.HABIT_EXTENDED_TIME_MESSAGE, 0);
+
+    }
+
+//     6,000 -- 1 min
+//     300,000 -- 5 min
+//     600,000 -- 10 min
+//     900,000 -- 15 min
+//     1,200,000 -- 20 min
+//     1,500,000 -- 25 min
+//     1,800,000 -- 30 min
+//     3,600,000 -- 60 min
+//     7,200,000 - 120 min
+//     12,000,000 -- 200 min
+//     14,400,000 - 240 min
+    protected int configureTime(int time) {
+        int newTime;
+        if(time >= 12000000) { // 200 Minutes to 240
+            newTime = (time/((int)(Math.random() * (12 - 10) + 10)));
+
+            System.out.println("200> The new Time is : " + newTime + " " + (int)(Math.random() * (12 - 10) + 10));
+        }else if(time >= 7200000) { // 120 Minutes to 199..
+
+            newTime = (time/((int)(Math.random() * (8 - 6) + 6)));
+
+            System.out.println("120> The new Time is : " + newTime + " " + (int)(Math.random() * (8 - 6) + 6));
+        }else if(time >= 3600000) { // 60 Minutes to 119..
+
+            newTime = (time/((int)(Math.random() * (6 - 4) + 4)));
+
+            System.out.println("60> The new Time is : " + newTime + " " + (int)(Math.random() * (6 - 4) + 4));
+        }else if(time >=  1200000) { // 20 Minutes to 59..
+
+            newTime = (time/((int)(Math.random() * (4 - 2) + 2)));
+
+            System.out.println("20> The new Time is : " + newTime + " " + (int)(Math.random() * (4 - 2) + 2));
+        }else { // >20
+            if(time > 300000){
+                newTime = (time / 2);
+            }else {
+                newTime = time;
+            }
+            System.out.println("NEW " + newTime);
+        }
+        return newTime;
+    }
+
+    private void updateTime(String val) {
+        int time = extendedTime/2;
+        switch(val) {
+            case "more":
+                habitTime *= 2;
+                habitTime += time;
+                if(habitTime >= goalTime) {
+                    habitTime = goalTime;
+                }
+                break;
+            case "perfect":
+                habitTime += time;
+                habitTime *= 1.25;
+                break;
+            case "less":
+                habitTime += time;
+                habitTime /= 1.25;
+                break;
+        }
     }
 
     public void moreTime(View view) {
         TextView configureTimeTextView = (TextView) findViewById(R.id.configure_time);
-        configureTimeTextView.setText("We will improve your habit by adding more time");
+        configureTimeTextView.setText("Definitly, Need more time.");
+        userInput = "more";
     }
 
     public void perfectTime(View view) {
         TextView configureTimeTextView = (TextView) findViewById(R.id.configure_time);
-        configureTimeTextView.setText("Perfect Time");
+        configureTimeTextView.setText("The time was good.");
+        userInput = "perfect";
     }
 
     public void lessTime(View view) {
         TextView configureTimeTextView = (TextView) findViewById(R.id.configure_time);
-        configureTimeTextView.setText("Less Time");
+        configureTimeTextView.setText("A little bit harder today");
+        userInput = "less";
+    }
 
-
+    public void done(View view) {
+        updateTime(userInput);
+        finish();
     }
 }

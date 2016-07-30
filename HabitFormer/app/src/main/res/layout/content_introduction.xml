@@ -9,22 +9,21 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.saymtf.habitformer.MainActivity"
-    tools:showIn="@layout/activity_main"
-    android:id="@+id/main_content">
+    tools:context="com.saymtf.habitformer.Introduction"
+    tools:showIn="@layout/activity_introduction">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/introduction_part_one"
+        android:text="@string/introduction_part_one"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/plus_button"
-        android:id="@+id/add_habit_button"
-        android:onClick="addHabit"/>
-
-    <Button android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/introduction_part_one_button"
+        android:text="@string/introduction_part_button"
         android:layout_alignParentBottom="true"
-        android:id="@+id/remove_habit"
-        android:text="@string/remove_habit"
-        android:onClick="removeHabit"/>
+        android:onClick="nextIntro"/>
 
 </RelativeLayout>
