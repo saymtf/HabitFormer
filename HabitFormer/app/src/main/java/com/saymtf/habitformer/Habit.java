@@ -41,6 +41,7 @@ public class Habit extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         habitNameText = (EditText) findViewById(R.id.habit_name);
+        timeValue = 300000; // initial setup 5 min
 
         NumberPicker np = (NumberPicker) findViewById(R.id.habit_time);
         np.setMaxValue(240);
@@ -54,6 +55,7 @@ public class Habit extends AppCompatActivity {
             {
                 timeValue = newVal*60000; // 60000 -- 1 min
             }
+
         });
 
     }
@@ -61,6 +63,7 @@ public class Habit extends AppCompatActivity {
     public void createTheHabit(View view) {
         String habitName = habitNameText.getText().toString();
         if(!habitName.equals("")) {
+            timeValue = 100000;
             Intent resultIntent = new Intent();
             resultIntent.putExtra(PUBLIC_STATIC_STRING_IDENTIFIER, habitName);
             resultIntent.putExtra(PUBLIC_STATIC_INT_IDENTIFIER, timeValue);

@@ -49,8 +49,6 @@ public class DisplayHabit extends AppCompatActivity {
 
 
         time = intent.getIntExtra(MainActivity.HABIT_TIME, 0);
-        System.out.println("Display Habit " + time);
-        Button startButton = (Button) findViewById(R.id.start_button);
 
         setContentView(R.layout.fragment_display_habit);
 

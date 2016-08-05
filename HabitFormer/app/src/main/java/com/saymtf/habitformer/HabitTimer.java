@@ -72,7 +72,6 @@ public class HabitTimer extends AppCompatActivity {
         habitNameTextView.setLayoutParams(layoutParamsHabitName);
 
         int time = intent.getIntExtra(MainActivity.HABIT_TIME, 0);
-        System.out.println("Habit Timer " +  time);
 
         mTextField = new TextView(this);
         mTextField.setTextSize(50);

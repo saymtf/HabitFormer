@@ -37,7 +37,7 @@ public class ConfigureTime extends AppCompatActivity {
         habitTime = intent.getIntExtra(MainActivity.HABIT_TIME, 0);
         goalTime = intent.getIntExtra(MainActivity.HABIT_GOAL_TIME, 0);
         extendedTime = intent.getIntExtra(HabitTimer.HABIT_EXTENDED_TIME_MESSAGE, 0);
-
+        userInput = "perfect";
     }
 
 //     6,000 -- 1 min
@@ -78,20 +78,17 @@ public class ConfigureTime extends AppCompatActivity {
             }else {
                 newTime = time;
             }
-            System.out.println("NEW " + newTime);
         }
         return newTime;
     }
 
     private void updateTime(String val) {
         int time = extendedTime/2;
+
         switch(val) {
             case "more":
                 habitTime *= 2;
                 habitTime += time;
-                if(habitTime >= goalTime) {
-                    habitTime = goalTime;
-                }
                 break;
             case "perfect":
                 habitTime += time;
@@ -102,6 +99,16 @@ public class ConfigureTime extends AppCompatActivity {
                 habitTime /= 1.25;
                 break;
         }
+
+        if(habitTime >= goalTime) {
+            habitTime = goalTime;
+        }
+
+        SharedPreferences pref = getApplicationContext().getSharedPreferences(MainActivity.HABIT_NAME, 0);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt("habitTime", habitTime);
+        editor.apply();
+
     }
 
     public void moreTime(View view) {
@@ -124,6 +131,7 @@ public class ConfigureTime extends AppCompatActivity {
 
     public void done(View view) {
         updateTime(userInput);
-        finish();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

@@ -138,8 +138,6 @@ public class MainActivity extends AppCompatActivity {
                 // Shared Preferences
                 // https://developer.android.com/training/basics/data-storage/shared-preferences.html
 
-                System.out.println("The habit edited " + habitTime + " ...Goal.. " + habitGoalTime);
-
                 // Save the Info
                 SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(HABIT_NAME, 0);
                 SharedPreferences.Editor editor = sharedPref.edit();
