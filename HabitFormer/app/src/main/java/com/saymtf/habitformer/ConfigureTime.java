@@ -73,40 +73,38 @@ public class ConfigureTime extends AppCompatActivity {
 
             System.out.println("20> The new Time is : " + newTime + " " + (int)(Math.random() * (4 - 2) + 2));
         }else { // >20
-            if(time > 300000){
-                newTime = (time / 2);
-            }else {
-                newTime = time;
-            }
+            newTime = (time / 2);
         }
         return newTime;
     }
 
     private void updateTime(String val) {
         int time = extendedTime/2;
-
+        int newTime = 0;
+        System.out.println("BEFORE " + time);
         switch(val) {
             case "more":
-                habitTime *= 2;
-                habitTime += time;
+                newTime += time;
+                newTime += (habitTime * 2);
                 break;
             case "perfect":
-                habitTime += time;
-                habitTime *= 1.25;
+                newTime += time;
+                newTime += (habitTime * 1.35);
                 break;
             case "less":
-                habitTime += time;
-                habitTime /= 1.25;
+                newTime += time;
+                newTime += (habitTime * 1.05);
                 break;
         }
 
         if(habitTime >= goalTime) {
             habitTime = goalTime;
+
         }
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences(MainActivity.HABIT_NAME, 0);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putInt("habitTime", habitTime);
+        editor.putInt("habitTime", newTime);
         editor.apply();
 
     }

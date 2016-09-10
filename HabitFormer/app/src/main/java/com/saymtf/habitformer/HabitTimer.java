@@ -91,9 +91,9 @@ public class HabitTimer extends AppCompatActivity {
             public void onTick(long miliseconds) {
 
                 int seconds = (int) (miliseconds / 1000);
-                System.out.println(seconds);
+                //System.out.println(seconds);
                 int minutes = seconds / 60;
-                System.out.println(minutes);
+                //System.out.println(minutes);
                 seconds = seconds % 60;
                 String timeText = minutes + ":" + String.format("%02d", seconds);
                 mTextField.setText(timeText);
@@ -112,14 +112,13 @@ public class HabitTimer extends AppCompatActivity {
         layout.addView(mTextField);
     }
 
+
+
     @Override
     protected void onStop() {
         super.onStop();
-
-        myHandler.removeCallbacks(updateTimerMethod);
         timer.cancel();
     }
-
 
     public void createButton() {
 
@@ -178,6 +177,7 @@ public class HabitTimer extends AppCompatActivity {
             Intent intent = new Intent(v.getContext(), ConfigureTime.class);
             intent.putExtra(HABIT_EXTENDED_TIME_MESSAGE, extraTime);
             intent.putExtra(MainActivity.HABIT_TIME, habitTime);
+            intent.putExtra(MainActivity.HABIT_GOAL_TIME, 0);
             startActivity(intent);
 
         }

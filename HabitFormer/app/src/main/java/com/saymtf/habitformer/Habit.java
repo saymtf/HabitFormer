@@ -1,5 +1,6 @@
 package com.saymtf.habitformer;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+
 /**
  * Created by mitchellfenton on 7/23/16.
  * Times are in the 1000ms == 1sec
@@ -58,6 +64,22 @@ public class Habit extends AppCompatActivity {
 
         });
 
+        TableLayout layout = (TableLayout) findViewById(R.id.habit);
+        TableRow.LayoutParams rowParams = new TableRow.LayoutParams();
+        rowParams.width = TableLayout.LayoutParams.WRAP_CONTENT;
+        rowParams.height = TableLayout.LayoutParams.MATCH_PARENT;
+        TableRow tr = new TableRow(this);
+        tr.setLayoutParams(rowParams);
+        //Calendar Selector
+        String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+        for(int i = 0; i < days.length; i++) {
+            TextView textView = new TextView(this);
+            textView.setText(days[i]);
+            textView.setId(days[i].hashCode());
+            tr.addView(textView);
+            // Add View to layout
+        }
+        layout.addView(tr);
     }
 
     public void createTheHabit(View view) {
