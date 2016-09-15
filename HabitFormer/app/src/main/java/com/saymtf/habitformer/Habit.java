@@ -67,13 +67,14 @@ public class Habit extends AppCompatActivity {
         TableLayout layout = (TableLayout) findViewById(R.id.habit);
         TableRow.LayoutParams rowParams = new TableRow.LayoutParams();
         rowParams.width = TableLayout.LayoutParams.WRAP_CONTENT;
-        rowParams.height = TableLayout.LayoutParams.MATCH_PARENT;
+        rowParams.height = TableLayout.LayoutParams.WRAP_CONTENT;
         TableRow tr = new TableRow(this);
         tr.setLayoutParams(rowParams);
         //Calendar Selector
         String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
         for(int i = 0; i < days.length; i++) {
             TextView textView = new TextView(this);
+            textView.setText(days[i]);
             textView.setText(days[i]);
             textView.setId(days[i].hashCode());
             tr.addView(textView);

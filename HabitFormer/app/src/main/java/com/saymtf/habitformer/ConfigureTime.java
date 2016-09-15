@@ -14,6 +14,7 @@ public class ConfigureTime extends AppCompatActivity {
     private int habitTime;
     private int extendedTime;
     private int goalTime;
+    private int habitStreak;
     private String userInput;
 
     @Override
@@ -37,6 +38,7 @@ public class ConfigureTime extends AppCompatActivity {
         habitTime = intent.getIntExtra(MainActivity.HABIT_TIME, 0);
         goalTime = intent.getIntExtra(MainActivity.HABIT_GOAL_TIME, 0);
         extendedTime = intent.getIntExtra(HabitTimer.HABIT_EXTENDED_TIME_MESSAGE, 0);
+        habitStreak = intent.getIntExtra(MainActivity.HABIT_STREAK, 0);
         userInput = "perfect";
     }
 
@@ -97,9 +99,10 @@ public class ConfigureTime extends AppCompatActivity {
                 break;
         }
 
+        habitStreak++; // increase day
+
         if(habitTime >= goalTime) {
             habitTime = goalTime;
-
         }
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences(MainActivity.HABIT_NAME, 0);
