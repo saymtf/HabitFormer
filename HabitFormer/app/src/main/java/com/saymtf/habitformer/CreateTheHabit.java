@@ -33,18 +33,6 @@ public class CreateTheHabit extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_create_the_habit);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         habitNameText = (EditText) findViewById(R.id.habit_name);
         timeValue = 300000; // initial setup 5 min
@@ -64,27 +52,19 @@ public class CreateTheHabit extends AppCompatActivity {
 
         });
 
-        LinearLayout parent =(LinearLayout)findViewById(R.id.create_the_habit);
+        TableLayout tl = (TableLayout) findViewById(R.id.create_the_habit);
+        TableRow tr = new TableRow(this);
 
-        parent.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        parent.setOrientation(LinearLayout.VERTICAL);
+       // Calendar Selector
+        String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+        for(int i = 0; i < days.length; i++) {
+            TextView textView = new TextView(this);
+            textView.setText(days[i] + " ");
+            textView.setId(days[i].hashCode());
+            tr.addView(textView);
+        }
 
-        TextView textView = new TextView(this);
-        textView.setText("asdf");
-        parent.addView(textView);
-
-
-
-        //Calendar Selector
-//        String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-//        for(int i = 0; i < days.length; i++) {
-//            TextView textView = new TextView(this);
-//            textView.setText(days[i]);
-//            textView.setId(days[i].hashCode());
-//            tr.addView(textView);
-//             Add View to layout
-//        }
-//          layout.addView(tr);
+        tl.addView(tr);
     }
 
     public void createTheHabit(View view) {
