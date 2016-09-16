@@ -2,6 +2,7 @@ package com.saymtf.habitformer;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -29,6 +30,8 @@ public class CreateTheHabit extends AppCompatActivity {
     public static final String PUBLIC_STATIC_INT_IDENTIFIER = "com.saymtf.habit.HABITTIME";
     private EditText habitNameText;
     private int timeValue;
+    private int size;
+    private String[] habitDay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,9 @@ public class CreateTheHabit extends AppCompatActivity {
 
         habitNameText = (EditText) findViewById(R.id.habit_name);
         timeValue = 300000; // initial setup 5 min
+        size = 0;
+        habitDay = new String[7];
+
 
         NumberPicker np = (NumberPicker) findViewById(R.id.habit_time);
         np.setMaxValue(240);
@@ -61,6 +67,10 @@ public class CreateTheHabit extends AppCompatActivity {
             TextView textView = new TextView(this);
             textView.setText(days[i] + " ");
             textView.setId(days[i].hashCode());
+            textView.setTextSize(16);
+            textView.setTextColor(Color.BLACK);
+            textView.setPadding(3,8,2,0);
+            textView.setOnClickListener(highlightDay);
             tr.addView(textView);
         }
 
@@ -69,7 +79,7 @@ public class CreateTheHabit extends AppCompatActivity {
 
     public void createTheHabit(View view) {
         String habitName = habitNameText.getText().toString();
-        if(!habitName.equals("")) {
+        if(!habitName.equals("") && size != 0) {
             timeValue = 100000;
             Intent resultIntent = new Intent();
             resultIntent.putExtra(PUBLIC_STATIC_STRING_IDENTIFIER, habitName);
@@ -81,5 +91,22 @@ public class CreateTheHabit extends AppCompatActivity {
             System.out.println("Empty");
         }
     }
+
+    public View.OnClickListener highlightDay = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+            TextView text =  (TextView) findViewById(view.getId());
+            if(text.getCurrentTextColor() == Color.BLACK) {
+                text.setTextColor(Color.BLUE);
+                System.out.println(text.getText());
+                size++;
+            }else {
+                text.setTextColor(Color.BLACK);
+                size--;
+            }
+
+        }
+    };
 
 }
