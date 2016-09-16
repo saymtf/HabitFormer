@@ -22,8 +22,10 @@ public class MainActivity extends AppCompatActivity {
     public static final String HABIT_MESSAGE = "com.saymtf.habit.HABIT_MESSAGE";
     public static final String HABIT_TIME = "com.saymtf.habit.HABIT_TIME";
     public static final String HABIT_GOAL_TIME = "com.saymtf.habit.HABIT_GOAL_TIME";
+    public static final String HABIT_STREAK = "come.saymtf.habit.HABIT_STREAK";
     public int habitTime;
     public int habitGoalTime;
+    public int habitStreak;
     HabitTypes habitTypes;
     private SharedPreferences prefs = null;
     ConfigureTime configureTime;
@@ -48,37 +50,50 @@ public class MainActivity extends AppCompatActivity {
         configureTime = new ConfigureTime();
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(HABIT_NAME, 0);
         String habitName = sharedPref.getString("habitName", HABIT_NAME);
+
         if (!habitName.equals("com.saymtf.habit.A_HABIT_NAME")) {
+                            // Current User Habit //
+
             //Create a Layout
             RelativeLayout layout = (RelativeLayout) findViewById(R.id.main_content);
 
             habitGoalTime = sharedPref.getInt("habitGoalTime", 0);
             habitTime = sharedPref.getInt("habitTime", 0);
+            habitStreak = sharedPref.getInt("habitStreak", 0);
+
 
             //Hide Add CreateAHabit Button (Only one at a time)
             Button button = (Button) findViewById(R.id.add_habit_button);
             button.setVisibility(View.GONE);
 
-               //Create Text View
+            //Create Text View
             TextView habitNameTextView = new TextView(this);
             habitNameTextView.setTextSize(30);
             habitNameTextView.setText(habitName);
             habitNameTextView.setId(View.generateViewId());
             habitNameTextView.setOnClickListener(habitNameClicked);
 
+            //Current Habit Streak
+            TextView habitStreakTextView = new TextView(this);
+            habitStreakTextView.setTextSize(30);
+            habitStreakTextView.setText(habitStreak);
+            habitStreakTextView.setId(View.generateViewId());
 
-                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
+
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.MATCH_PARENT,
                     RelativeLayout.LayoutParams.WRAP_CONTENT
-                );
+            );
 
-                layoutParams.addRule(RelativeLayout.BELOW, R.id.add_habit_button);
+            layoutParams.addRule(RelativeLayout.BELOW, R.id.add_habit_button);
 
 
-                habitNameTextView.setLayoutParams(layoutParams);
+            habitNameTextView.setLayoutParams(layoutParams);
 
              // Add View to layout
-                layout.addView(habitNameTextView);
+            layout.addView(habitNameTextView);
+            layout.addView(habitStreakTextView);
+
         }else {
             Button removeButton = (Button) findViewById(R.id.remove_habit);
             removeButton.setVisibility(View.GONE);
@@ -131,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
                 String habit = data.getStringExtra(CreateTheHabit.PUBLIC_STATIC_STRING_IDENTIFIER);
                 habitGoalTime = data.getIntExtra(CreateTheHabit.PUBLIC_STATIC_INT_IDENTIFIER, 0);
                 habitTime = configureTime.configureTime(habitGoalTime);
+
                 // Shared Preferences
                 // https://developer.android.com/training/basics/data-storage/shared-preferences.html
 
@@ -141,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.putString("habitName", habit);
                 editor.putInt("habitGoalTime", habitGoalTime);
                 editor.putInt("habitTime", habitTime);
+                editor.putInt("habitStreak", 0);
                 editor.apply();
 
                 // Update View
