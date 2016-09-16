@@ -1,7 +1,6 @@
 package com.saymtf.habitformer;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
@@ -16,9 +15,6 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import java.util.Random;
-import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     public static final int STATIC_INTEGER_VALUE = 69;
@@ -59,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             habitGoalTime = sharedPref.getInt("habitGoalTime", 0);
             habitTime = sharedPref.getInt("habitTime", 0);
 
-            //Hide Add Habit Button (Only one at a time)
+            //Hide Add CreateAHabit Button (Only one at a time)
             Button button = (Button) findViewById(R.id.add_habit_button);
             button.setVisibility(View.GONE);
 
@@ -132,8 +128,8 @@ public class MainActivity extends AppCompatActivity {
 
         if(requestCode == STATIC_INTEGER_VALUE) {
             if(resultCode == Activity.RESULT_OK) {
-                String habit = data.getStringExtra(Habit.PUBLIC_STATIC_STRING_IDENTIFIER);
-                habitGoalTime = data.getIntExtra(Habit.PUBLIC_STATIC_INT_IDENTIFIER, 0);
+                String habit = data.getStringExtra(CreateTheHabit.PUBLIC_STATIC_STRING_IDENTIFIER);
+                habitGoalTime = data.getIntExtra(CreateTheHabit.PUBLIC_STATIC_INT_IDENTIFIER, 0);
                 habitTime = configureTime.configureTime(habitGoalTime);
                 // Shared Preferences
                 // https://developer.android.com/training/basics/data-storage/shared-preferences.html
@@ -150,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                 // Update View
                 RelativeLayout layout = (RelativeLayout) findViewById(R.id.main_content);
 
-                //Hide Add Habit Button (Only one at a time)
+                //Hide Add CreateAHabit Button (Only one at a time)
                 Button addButton = (Button) findViewById(R.id.add_habit_button);
                 addButton.setVisibility(View.GONE);
 
@@ -210,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     public void addHabit(View view) {
-        Intent intent = new Intent(this, Habit.class);
+        Intent intent = new Intent(this, CreateTheHabit.class);
         startActivityForResult(intent, STATIC_INTEGER_VALUE);
     }
 

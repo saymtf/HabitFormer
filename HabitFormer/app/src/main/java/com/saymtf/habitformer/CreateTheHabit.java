@@ -1,6 +1,5 @@
 package com.saymtf.habitformer;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,9 +8,10 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
-import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -24,7 +24,7 @@ import android.widget.TextView;
  * 600000ms = 10min
  * ...
  */
-public class Habit extends AppCompatActivity {
+public class CreateTheHabit extends AppCompatActivity {
     public static final String PUBLIC_STATIC_STRING_IDENTIFIER = "com.saymtf.habit.HABITNAME";
     public static final String PUBLIC_STATIC_INT_IDENTIFIER = "com.saymtf.habit.HABITTIME";
     private EditText habitNameText;
@@ -32,7 +32,7 @@ public class Habit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_habit);
+        setContentView(R.layout.fragment_create_the_habit);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -64,22 +64,27 @@ public class Habit extends AppCompatActivity {
 
         });
 
-        TableLayout layout = (TableLayout) findViewById(R.id.habit);
-        TableRow.LayoutParams rowParams = new TableRow.LayoutParams();
-        rowParams.width = TableLayout.LayoutParams.WRAP_CONTENT;
-        rowParams.height = TableLayout.LayoutParams.MATCH_PARENT;
-        TableRow tr = new TableRow(this);
-        tr.setLayoutParams(rowParams);
+        LinearLayout parent =(LinearLayout)findViewById(R.id.create_the_habit);
+
+        parent.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        parent.setOrientation(LinearLayout.VERTICAL);
+
+        TextView textView = new TextView(this);
+        textView.setText("asdf");
+        parent.addView(textView);
+
+
+
         //Calendar Selector
-        String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-        for(int i = 0; i < days.length; i++) {
-            TextView textView = new TextView(this);
-            textView.setText(days[i]);
-            textView.setId(days[i].hashCode());
-            tr.addView(textView);
-            // Add View to layout
-        }
-        layout.addView(tr);
+//        String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+//        for(int i = 0; i < days.length; i++) {
+//            TextView textView = new TextView(this);
+//            textView.setText(days[i]);
+//            textView.setId(days[i].hashCode());
+//            tr.addView(textView);
+//             Add View to layout
+//        }
+//          layout.addView(tr);
     }
 
     public void createTheHabit(View view) {
@@ -96,4 +101,5 @@ public class Habit extends AppCompatActivity {
             System.out.println("Empty");
         }
     }
+
 }
