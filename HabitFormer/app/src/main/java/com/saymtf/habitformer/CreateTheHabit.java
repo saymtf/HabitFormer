@@ -17,6 +17,9 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by mitchellfenton on 7/23/16.
  * Times are in the 1000ms == 1sec
@@ -27,11 +30,12 @@ import android.widget.TextView;
  */
 public class CreateTheHabit extends AppCompatActivity {
     public static final String PUBLIC_STATIC_STRING_IDENTIFIER = "com.saymtf.habit.HABITNAME";
+    public static final String PUBLIC_STATIC_ARRAY_IDENTIFIER = "com.saymtf.habit.HABITNAME";
     public static final String PUBLIC_STATIC_INT_IDENTIFIER = "com.saymtf.habit.HABITTIME";
     private EditText habitNameText;
     private int timeValue;
     private int size;
-    private String[] habitDay;
+    private HashMap<Integer, String> habitDay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +44,7 @@ public class CreateTheHabit extends AppCompatActivity {
         habitNameText = (EditText) findViewById(R.id.habit_name);
         timeValue = 300000; // initial setup 5 min
         size = 0;
-        habitDay = new String[7];
+        habitDay = new HashMap<Integer, String>();
 
 
         NumberPicker np = (NumberPicker) findViewById(R.id.habit_time);
@@ -77,21 +81,6 @@ public class CreateTheHabit extends AppCompatActivity {
         tl.addView(tr);
     }
 
-    public void createTheHabit(View view) {
-        String habitName = habitNameText.getText().toString();
-        if(!habitName.equals("") && size != 0) {
-            timeValue = 100000;
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra(PUBLIC_STATIC_STRING_IDENTIFIER, habitName);
-            resultIntent.putExtra(PUBLIC_STATIC_INT_IDENTIFIER, timeValue);
-            setResult(Activity.RESULT_OK, resultIntent);
-            finish();
-        }else {
-            // Display message, Cannot be Empty
-            System.out.println("Empty");
-        }
-    }
-
     public View.OnClickListener highlightDay = new View.OnClickListener() {
 
         @Override
@@ -100,13 +89,30 @@ public class CreateTheHabit extends AppCompatActivity {
             if(text.getCurrentTextColor() == Color.BLACK) {
                 text.setTextColor(Color.BLUE);
                 System.out.println(text.getText());
+                habitDay.put(size, text.getText().toString());
                 size++;
             }else {
                 text.setTextColor(Color.BLACK);
+                habitDay.remove(size);
                 size--;
             }
-
         }
     };
+
+    public void createTheHabit(View view) {
+        String habitName = habitNameText.getText().toString();
+        if(!habitName.equals("") && size != 0) {
+            timeValue = 100000;
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra(PUBLIC_STATIC_STRING_IDENTIFIER, habitName);
+            resultIntent.putExtra(PUBLIC_STATIC_INT_IDENTIFIER, timeValue);
+            resultIntent.putExtra(PUBLIC_STATIC_ARRAY_IDENTIFIER, habitDay);
+            setResult(Activity.RESULT_OK, resultIntent);
+            finish();
+        }else {
+            // Display message, Cannot be Empty
+            System.out.println("Empty");
+        }
+    }
 
 }

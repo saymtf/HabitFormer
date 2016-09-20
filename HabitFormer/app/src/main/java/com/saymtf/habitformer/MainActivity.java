@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
     public static final int STATIC_INTEGER_VALUE = 69;
     public static final String HABIT_NAME = "com.saymtf.habit.A_HABIT_NAME";
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     public int habitTime;
     public int habitGoalTime;
     public int habitStreak;
+    public Map<Integer, String> habitDays;
     HabitTypes habitTypes;
     private SharedPreferences prefs = null;
     ConfigureTime configureTime;
@@ -147,14 +150,18 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == Activity.RESULT_OK) {
                 String habit = data.getStringExtra(CreateTheHabit.PUBLIC_STATIC_STRING_IDENTIFIER);
                 habitGoalTime = data.getIntExtra(CreateTheHabit.PUBLIC_STATIC_INT_IDENTIFIER, 0);
+                habitDays = (Map<Integer, String>)data.getSerializableExtra(CreateTheHabit.PUBLIC_STATIC_ARRAY_IDENTIFIER);
                 habitTime = configureTime.configureTime(habitGoalTime);
-
                 // Shared Preferences
                 // https://developer.android.com/training/basics/data-storage/shared-preferences.html
 
                 // Save the Info
                 SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(HABIT_NAME, 0);
                 SharedPreferences.Editor editor = sharedPref.edit();
+
+                for(Integer integer : habitDays.keySet()) {
+                    editor.putString(Integer.toString(integer), habitDays.get(integer));
+                }
 
                 editor.putString("habitName", habit);
                 editor.putInt("habitGoalTime", habitGoalTime);
