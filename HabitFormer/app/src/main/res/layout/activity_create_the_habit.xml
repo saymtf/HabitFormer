@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.saymtf.habitformer.Habit">
+    tools:context="com.saymtf.habitformer.CreateTheHabit">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_habit" />
+    <include layout="@layout/content_create_the_habit" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

@@ -75,7 +75,7 @@ public class DisplayHabit extends AppCompatActivity {
 
     public void editAction(View view) {
         EditText editText = new EditText(this);
-        editText.setHint("Change Habit Name");
+        editText.setHint("Change CreateAHabit Name");
 
         Button removeHabitButton = new Button(this);
         removeHabitButton.setOnClickListener(new View.OnClickListener() {

@@ -1,17 +1,18 @@
 package com.saymtf.habitformer;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
-import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -24,30 +25,23 @@ import android.widget.TextView;
  * 600000ms = 10min
  * ...
  */
-public class Habit extends AppCompatActivity {
+public class CreateTheHabit extends AppCompatActivity {
     public static final String PUBLIC_STATIC_STRING_IDENTIFIER = "com.saymtf.habit.HABITNAME";
     public static final String PUBLIC_STATIC_INT_IDENTIFIER = "com.saymtf.habit.HABITTIME";
     private EditText habitNameText;
     private int timeValue;
+    private int size;
+    private String[] habitDay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_habit);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.fragment_create_the_habit);
 
         habitNameText = (EditText) findViewById(R.id.habit_name);
         timeValue = 300000; // initial setup 5 min
+        size = 0;
+        habitDay = new String[7];
+
 
         NumberPicker np = (NumberPicker) findViewById(R.id.habit_time);
         np.setMaxValue(240);
@@ -64,28 +58,28 @@ public class Habit extends AppCompatActivity {
 
         });
 
-        TableLayout layout = (TableLayout) findViewById(R.id.habit);
-        TableRow.LayoutParams rowParams = new TableRow.LayoutParams();
-        rowParams.width = TableLayout.LayoutParams.WRAP_CONTENT;
-        rowParams.height = TableLayout.LayoutParams.WRAP_CONTENT;
+        TableLayout tl = (TableLayout) findViewById(R.id.create_the_habit);
         TableRow tr = new TableRow(this);
-        tr.setLayoutParams(rowParams);
-        //Calendar Selector
+
+       // Calendar Selector
         String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
         for(int i = 0; i < days.length; i++) {
             TextView textView = new TextView(this);
-            textView.setText(days[i]);
-            textView.setText(days[i]);
+            textView.setText(days[i] + " ");
             textView.setId(days[i].hashCode());
+            textView.setTextSize(16);
+            textView.setTextColor(Color.BLACK);
+            textView.setPadding(3,8,2,0);
+            textView.setOnClickListener(highlightDay);
             tr.addView(textView);
-            // Add View to layout
         }
-        layout.addView(tr);
+
+        tl.addView(tr);
     }
 
     public void createTheHabit(View view) {
         String habitName = habitNameText.getText().toString();
-        if(!habitName.equals("")) {
+        if(!habitName.equals("") && size != 0) {
             timeValue = 100000;
             Intent resultIntent = new Intent();
             resultIntent.putExtra(PUBLIC_STATIC_STRING_IDENTIFIER, habitName);
@@ -97,4 +91,22 @@ public class Habit extends AppCompatActivity {
             System.out.println("Empty");
         }
     }
+
+    public View.OnClickListener highlightDay = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View view) {
+            TextView text =  (TextView) findViewById(view.getId());
+            if(text.getCurrentTextColor() == Color.BLACK) {
+                text.setTextColor(Color.BLUE);
+                System.out.println(text.getText());
+                size++;
+            }else {
+                text.setTextColor(Color.BLACK);
+                size--;
+            }
+
+        }
+    };
+
 }

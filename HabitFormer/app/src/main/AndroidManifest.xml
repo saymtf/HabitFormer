@@ -19,15 +19,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Habit"
-            android:label="@string/title_activity_habit"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.saymtf.habitformer.MainActivity" />
-        </activity>
-        <activity
             android:name=".DisplayHabit"
             android:label="@string/title_activity_display_habit"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -65,6 +56,15 @@
         <activity
             android:name=".IntroductionThree"
             android:label="@string/title_activity_introduction_three"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.saymtf.habitformer.MainActivity" />
+        </activity>
+        <activity
+            android:name=".CreateTheHabit"
+            android:label="@string/title_activity_create_the_habit"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
