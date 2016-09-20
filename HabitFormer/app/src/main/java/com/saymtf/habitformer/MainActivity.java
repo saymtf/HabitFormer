@@ -16,6 +16,10 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.Calendar;
+import java.util.Map;
+import java.util.TimeZone;
+
 public class MainActivity extends AppCompatActivity {
     public static final int STATIC_INTEGER_VALUE = 69;
     public static final String HABIT_NAME = "com.saymtf.habit.A_HABIT_NAME";
@@ -26,9 +30,11 @@ public class MainActivity extends AppCompatActivity {
     public int habitTime;
     public int habitGoalTime;
     public int habitStreak;
+    public Map<Integer, String> habitDays;
     HabitTypes habitTypes;
     private SharedPreferences prefs = null;
     ConfigureTime configureTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +57,13 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(HABIT_NAME, 0);
         String habitName = sharedPref.getString("habitName", HABIT_NAME);
 
+        Calendar rightNow = Calendar.getInstance();
+        if(rightNow.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
+            System.out.println("ITS MONDAY");
+        }
+
         if (!habitName.equals("com.saymtf.habit.A_HABIT_NAME")) {
-                            // Current User Habit //
+            // Current User Habit //
 
             //Create a Layout
             RelativeLayout layout = (RelativeLayout) findViewById(R.id.main_content);
@@ -90,11 +101,11 @@ public class MainActivity extends AppCompatActivity {
 
             habitNameTextView.setLayoutParams(layoutParams);
 
-             // Add View to layout
+            // Add View to layout
             layout.addView(habitNameTextView);
             layout.addView(habitStreakTextView);
 
-        }else {
+        } else {
             Button removeButton = (Button) findViewById(R.id.remove_habit);
             removeButton.setVisibility(View.GONE);
         }
@@ -141,12 +152,13 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+
         if(requestCode == STATIC_INTEGER_VALUE) {
             if(resultCode == Activity.RESULT_OK) {
                 String habit = data.getStringExtra(CreateTheHabit.PUBLIC_STATIC_STRING_IDENTIFIER);
                 habitGoalTime = data.getIntExtra(CreateTheHabit.PUBLIC_STATIC_INT_IDENTIFIER, 0);
+                habitDays = (Map<Integer, String>)data.getSerializableExtra(CreateTheHabit.PUBLIC_STATIC_ARRAY_IDENTIFIER);
                 habitTime = configureTime.configureTime(habitGoalTime);
-
                 // Shared Preferences
                 // https://developer.android.com/training/basics/data-storage/shared-preferences.html
 
@@ -154,6 +166,9 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(HABIT_NAME, 0);
                 SharedPreferences.Editor editor = sharedPref.edit();
 
+                for(Integer integer : habitDays.keySet()) {
+                    editor.putString(Integer.toString(integer), habitDays.get(integer));
+                }
                 editor.putString("habitName", habit);
                 editor.putInt("habitGoalTime", habitGoalTime);
                 editor.putInt("habitTime", habitTime);
@@ -185,8 +200,8 @@ public class MainActivity extends AppCompatActivity {
                 habitTextView.setOnClickListener(habitNameClicked);
 
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.MATCH_PARENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
 
                 RelativeLayout.LayoutParams layoutParams1 = new RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -196,11 +211,11 @@ public class MainActivity extends AppCompatActivity {
                 layoutParams.addRule(RelativeLayout.BELOW, R.id.add_habit_button);
                 //layoutParams1.addRule(RelativeLayout.BELOW, habitTextView.getId());
                 habitTextView.setLayoutParams(layoutParams);
-               // test.setLayoutParams(layoutParams1);
+                // test.setLayoutParams(layoutParams1);
 
                 //Add to view
                 layout.addView(habitTextView);
-               // layout.addView(test);
+                // layout.addView(test);
 
             }
         }

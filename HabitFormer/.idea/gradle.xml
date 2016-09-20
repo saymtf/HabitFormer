@@ -13,7 +13,10 @@
             <option value="$PROJECT_DIR$/app" />
           </set>
         </option>
+<<<<<<< HEAD
         <option name="resolveModulePerSourceSet" value="false" />
+=======
+>>>>>>> 5de6c3ef44f0d29f88e22767ae97faf1d7a6e8f7
       </GradleProjectSettings>
     </option>
   </component>
