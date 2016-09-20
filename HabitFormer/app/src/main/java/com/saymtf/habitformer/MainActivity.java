@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     HabitTypes habitTypes;
     private SharedPreferences prefs = null;
     ConfigureTime configureTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         String habitName = sharedPref.getString("habitName", HABIT_NAME);
 
         if (!habitName.equals("com.saymtf.habit.A_HABIT_NAME")) {
-                            // Current User Habit //
+            // Current User Habit //
 
             //Create a Layout
             RelativeLayout layout = (RelativeLayout) findViewById(R.id.main_content);
@@ -94,11 +95,11 @@ public class MainActivity extends AppCompatActivity {
 
             habitNameTextView.setLayoutParams(layoutParams);
 
-             // Add View to layout
+            // Add View to layout
             layout.addView(habitNameTextView);
             layout.addView(habitStreakTextView);
 
-        }else {
+        } else {
             Button removeButton = (Button) findViewById(R.id.remove_habit);
             removeButton.setVisibility(View.GONE);
         }
@@ -145,8 +146,8 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == STATIC_INTEGER_VALUE) {
-            if(resultCode == Activity.RESULT_OK) {
+        if (requestCode == STATIC_INTEGER_VALUE) {
+            if (resultCode == Activity.RESULT_OK) {
                 String habit = data.getStringExtra(Habit.PUBLIC_STATIC_STRING_IDENTIFIER);
                 habitGoalTime = data.getIntExtra(Habit.PUBLIC_STATIC_INT_IDENTIFIER, 0);
                 habitTime = configureTime.configureTime(habitGoalTime);
@@ -189,8 +190,8 @@ public class MainActivity extends AppCompatActivity {
                 habitTextView.setOnClickListener(habitNameClicked);
 
                 RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.MATCH_PARENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
 
                 RelativeLayout.LayoutParams layoutParams1 = new RelativeLayout.LayoutParams(
                         RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -200,11 +201,11 @@ public class MainActivity extends AppCompatActivity {
                 layoutParams.addRule(RelativeLayout.BELOW, R.id.add_habit_button);
                 //layoutParams1.addRule(RelativeLayout.BELOW, habitTextView.getId());
                 habitTextView.setLayoutParams(layoutParams);
-               // test.setLayoutParams(layoutParams1);
+                // test.setLayoutParams(layoutParams1);
 
                 //Add to view
                 layout.addView(habitTextView);
-               // layout.addView(test);
+                // layout.addView(test);
 
             }
         }
